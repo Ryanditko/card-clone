@@ -4,30 +4,38 @@
   <meta charset="UTF-8">
   <title>🔍 Seu Cartão Foi Clonado?</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
     body {
-      background-color: #0d1117;
-      color: #00ff9f;
-      font-family: 'Courier New', monospace;
+      background: linear-gradient(to right, #0f0f0f, #1a1a1a);
+      color: #7300ff;
+      font-family: 'Orbitron', sans-serif;
       text-align: center;
       padding: 50px;
+      overflow: hidden;
     }
     input, button {
       padding: 15px;
       font-size: 18px;
-      margin-top: 20px;
+      margin: 10px;
       background-color: #000;
-      color: #00ff9f;
-      border: 2px solid #00ff9f;
+      color: #5900ff;
+      border: 2px solid #6600ff;
       border-radius: 8px;
+      box-shadow: 0 0 10px #4c00ff;
+    }
+    input::placeholder {
+      color: #9075ff88;
     }
     button:hover {
-      background-color: #00ff9f;
+      background-color: #6200ff;
       color: #000;
       cursor: pointer;
     }
     .glitch {
-      font-size: 1.2em;
+      font-size: 2em;
       animation: glitch 1s infinite;
+      text-shadow: 0 0 5px rgb(0, 0, 0), 0 0 10px rgb(102, 6, 139), 0 0 20px rgb(43, 0, 255);
     }
     @keyframes glitch {
       0% { transform: translate(0); }
@@ -37,10 +45,18 @@
       80% { transform: translate(2px, -2px); }
       100% { transform: translate(0); }
     }
-    #loading {
-      margin-top: 30px;
-      font-size: 1.2em;
-      color: #ff007f;
+    .neon-border {
+      border: 2px solid #6a00ff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #2200ff;
+      display: inline-block;
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    #copy-feedback {
+      color: #4400ff;
+      margin-top: 10px;
       display: none;
     }
   </style>
@@ -48,51 +64,66 @@
 <body>
   <h1 class="glitch">💳 Descubra Se Seu Cartão Foi Clonado</h1>
   <p>Insira os dados abaixo para escanear™:</p>
-  <input type="text" maxlength="19" placeholder="Número do Cartão" id="input-cartao">
-  <br>
-  <input type="text" maxlength="5" placeholder="Validade (MM/AA)" id="input-validade">
-  <br>
-  <input type="text" maxlength="3" placeholder="CVV" id="input-cvv">
-  <br>
-  <button onclick="verificar()">Verificar Agora</button>
+  <div class="neon-border">
+    <input type="text" maxlength="19" placeholder="Número do Cartão" id="input-cartao">
+    <br>
+    <input type="text" maxlength="5" placeholder="Validade (MM/AA)" id="input-validade">
+    <br>
+    <input type="text" maxlength="3" placeholder="CVV" id="input-cvv">
+    <br>
+    <button onclick="verificar()">Verificar Agora</button>
+    <button onclick="compartilhar()">🔗 Compartilhar</button>
+    <p id="copy-feedback">✅ Link copiado para a área de transferência.</p>
+  </div>
 
-  <p id="loading">Conectando com servidores... acesso aos metadados... Acessando rede...</p>
   <p id="resultado" style="margin-top:40px; font-size: 1.2em;"></p>
-  <audio id="alerta" src="https://www.soundjay.com/button/sounds/beep-07.mp3"></audio>
-  <audio id="risada" src="https://www.soundjay.com/human/sounds/laugh-2.mp3"></audio>
+  <!-- Som atualizado para o Gyro -->
+  <audio id="alerta" src="https://www.myinstants.com/media/sounds/foi-quando-gyro-finalmente-entendeu-41342.mp3" preload="auto"></audio>
+
+
 
   <script>
     function verificar() {
-      const cartao = document.getElementById("input-cartao").value;
+      const cartao = document.getElementById("input-cartao").value.replace(/\s+/g, '');
       const validade = document.getElementById("input-validade").value;
       const cvv = document.getElementById("input-cvv").value;
       const resultado = document.getElementById("resultado");
-      const loading = document.getElementById("loading");
       const alerta = document.getElementById("alerta");
-      const risada = document.getElementById("risada");
 
-      resultado.innerHTML = "";
+      const soNumeros = /^\d+$/;
 
-      if (cartao && validade && cvv) {
-        alerta.play();
-        loading.style.display = "block";
-
-        setTimeout(() => {
-          loading.style.display = "none";
-          risada.play();
-          resultado.innerHTML = `🔍 Escaneando blockchain obscura...<br><br>
-            ✅ Seu cartão foi clonado!<br>
-            O hacker já gastou tudo em NFTs de gatinhos pixelados e 3 paçocas com frete de R$ 72,00.<br><br>
-            <strong style="color: red; font-size: 1.5em;">Parabéns, você é burro.</strong>`;
-        }, 3000);
-      } else {
-        resultado.innerHTML = "Por favor, preencha todos os campos do cartão para escanear sua burrice com mais precisão.";
+      if (!cartao || !validade || !cvv) {
+        resultado.innerHTML = "⚠️ Por favor, preencha todos os campos do cartão.";
+        return;
       }
+
+      if (!soNumeros.test(cartao) || !soNumeros.test(validade.replace('/', '')) || !soNumeros.test(cvv)) {
+        resultado.innerHTML = "⚠️ Os dados devem conter apenas números. Verifique e tente novamente.";
+        return;
+      }
+
+      alerta.play();
+      resultado.innerHTML = "🔍 Escaneando servidores do Banco Central...<br><br>";
+
+      setTimeout(() => {
+        resultado.innerHTML += `✅ Seu cartão foi clonado!<br>
+        Peço que escute o audio abaixo e pense um pouco...</strong>`;
+      }, 2000);
+    }
+
+    function compartilhar() {
+      const url = window.location.href.split('?')[0] + '?src=discord_meme&uid=' + Math.floor(Math.random() * 9000 + 1000);
+      navigator.clipboard.writeText(url).then(() => {
+        const feedback = document.getElementById("copy-feedback");
+        feedback.style.display = "block";
+        setTimeout(() => feedback.style.display = "none", 3000);
+      });
     }
   </script>
 
   <footer style="margin-top: 100px; font-size: 0.8em; color: #888;">
-    <p>LOL</p>
+    <p>Ryanditko</p>
   </footer>
+  <iframe width="110" height="200" src="https://www.myinstants.com/instant/foi-quando-gyro-finalmente-entendeu-41342/embed/" frameborder="0" scrolling="no"></iframe>
 </body>
 </html>
