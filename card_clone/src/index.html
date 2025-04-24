@@ -14,6 +14,7 @@
       padding: 50px;
       overflow: hidden;
     }
+
     input, button {
       padding: 15px;
       font-size: 18px;
@@ -24,19 +25,23 @@
       border-radius: 8px;
       box-shadow: 0 0 10px #4c00ff;
     }
+
     input::placeholder {
       color: #9075ff88;
     }
+
     button:hover {
       background-color: #6200ff;
       color: #000;
       cursor: pointer;
     }
+
     .glitch {
       font-size: 2em;
       animation: glitch 1s infinite;
       text-shadow: 0 0 5px rgb(0, 0, 0), 0 0 10px rgb(102, 6, 139), 0 0 20px rgb(43, 0, 255);
     }
+
     @keyframes glitch {
       0% { transform: translate(0); }
       20% { transform: translate(-2px, 2px); }
@@ -45,6 +50,7 @@
       80% { transform: translate(2px, -2px); }
       100% { transform: translate(0); }
     }
+
     .neon-border {
       border: 2px solid #6a00ff;
       padding: 20px;
@@ -54,11 +60,45 @@
       margin-top: 20px;
       background-color: rgba(0, 0, 0, 0.6);
     }
+
     #copy-feedback {
       color: #4400ff;
       margin-top: 10px;
       display: none;
     }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      input, button {
+        width: 100%;
+        font-size: 16px;
+      }
+
+      .glitch {
+        font-size: 1.5em;
+      }
+
+      .neon-border {
+        width: 100%;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .glitch {
+        font-size: 1.2em;
+      }
+
+      input, button {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -79,8 +119,6 @@
   <p id="resultado" style="margin-top:40px; font-size: 1.2em;"></p>
   <!-- Som atualizado para o Gyro -->
   <audio id="alerta" src="https://www.myinstants.com/media/sounds/foi-quando-gyro-finalmente-entendeu-41342.mp3" preload="auto"></audio>
-
-
 
   <script>
     function verificar() {
