@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>🔍 Seu Cartão Foi Clonado?</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #00ff9f;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 50px;
+    }
+    input, button {
+      padding: 15px;
+      font-size: 18px;
+      margin-top: 20px;
+      background-color: #000;
+      color: #00ff9f;
+      border: 2px solid #00ff9f;
+      border-radius: 8px;
+    }
+    button:hover {
+      background-color: #00ff9f;
+      color: #000;
+      cursor: pointer;
+    }
+    .glitch {
+      font-size: 1.2em;
+      animation: glitch 1s infinite;
+    }
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+    #loading {
+      margin-top: 30px;
+      font-size: 1.2em;
+      color: #ff007f;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="glitch">💳 Descubra Se Seu Cartão Foi Clonado</h1>
+  <p>Insira os dados abaixo para escanear™:</p>
+  <input type="text" maxlength="19" placeholder="Número do Cartão" id="input-cartao">
+  <br>
+  <input type="text" maxlength="5" placeholder="Validade (MM/AA)" id="input-validade">
+  <br>
+  <input type="text" maxlength="3" placeholder="CVV" id="input-cvv">
+  <br>
+  <button onclick="verificar()">Verificar Agora</button>
+
+  <p id="loading">Conectando com servidores... acesso aos metadados... Acessando rede...</p>
+  <p id="resultado" style="margin-top:40px; font-size: 1.2em;"></p>
+  <audio id="alerta" src="https://www.soundjay.com/button/sounds/beep-07.mp3"></audio>
+  <audio id="risada" src="https://www.soundjay.com/human/sounds/laugh-2.mp3"></audio>
+
+  <script>
+    function verificar() {
+      const cartao = document.getElementById("input-cartao").value;
+      const validade = document.getElementById("input-validade").value;
+      const cvv = document.getElementById("input-cvv").value;
+      const resultado = document.getElementById("resultado");
+      const loading = document.getElementById("loading");
+      const alerta = document.getElementById("alerta");
+      const risada = document.getElementById("risada");
+
+      resultado.innerHTML = "";
+
+      if (cartao && validade && cvv) {
+        alerta.play();
+        loading.style.display = "block";
+
+        setTimeout(() => {
+          loading.style.display = "none";
+          risada.play();
+          resultado.innerHTML = `🔍 Escaneando blockchain obscura...<br><br>
+            ✅ Seu cartão foi clonado!<br>
+            O hacker já gastou tudo em NFTs de gatinhos pixelados e 3 paçocas com frete de R$ 72,00.<br><br>
+            <strong style="color: red; font-size: 1.5em;">Parabéns, você é burro.</strong>`;
+        }, 3000);
+      } else {
+        resultado.innerHTML = "Por favor, preencha todos os campos do cartão para escanear sua burrice com mais precisão.";
+      }
+    }
+  </script>
+
+  <footer style="margin-top: 100px; font-size: 0.8em; color: #888;">
+    <p>Se você realmente digitou seu cartão aqui, parabéns: você é burro.</p>
+  </footer>
+</body>
+</html>
